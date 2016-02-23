@@ -1,0 +1,70 @@
+{
+  "variables": {
+    "aws_access_key_id": "{{env `AWS_ACCESS_KEY`}}",
+    "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
+    "ssh_private_key_file": "{{env `SSH_PRIVATE_KEY_FILE`}}",
+    "cookbook_path": "{{env `BASE_DIR`}}/ops/prime-8-buildserver/cookbooks",
+    "source_ami": "{{env `PRIME8_BASE_AMI`}}",
+    "base_dir": "{{env `BASE_DIR`}}"
+  },
+  "builders": [{
+    "type": "amazon-ebs",
+    "access_key": "{{user `aws_access_key_id`}}",
+    "secret_key": "{{user `aws_secret_key`}}",
+    "region": "us-west-2",
+    "source_ami": "{{user `source_ami`}}",
+    "instance_type": "t2.medium",
+    "ssh_username": "ubuntu",
+    "ami_name": "buildserver-{{isotime \"2006-01-02\"}}",
+    "ami_description": "prime 8 buildserver ami",
+    "security_group_ids": [ "sg-7a3bfd1d" ],
+    "force_deregister": "true",
+    "ssh_keypair_name": "bootstrap",
+    "ssh_private_key_file": "{{user `ssh_private_key_file`}}",
+    "ami_users": ["433529932512"],
+    "tags": {
+      "stage": "dev",
+      "os": "ubuntu 14.04",
+      "release": "latest",
+      "role": "buildserver",
+      "version": "0.0.0",
+      "lock": "none"
+    }
+  }],
+  "provisioners": [
+   {
+    "type": "shell",
+    "inline": [
+       "sudo apt-get -y update",
+       "sudo chmod 777 /etc/chef" 
+     ]
+   },
+   {
+    "type": "file",
+    "source": "{{user `cookbook_path`}}",
+    "destination": "/etc/chef/"
+   },
+   {
+    "type": "chef-client",
+    "execute_command": "cd /etc/chef && sudo chef-client --local-mode -c /tmp/packer-chef-client/client.rb -j /tmp/packer-chef-client/first-boot.json",
+    "server_url": "http://localhost:8889",
+    "skip_clean_node": "true",
+    "skip_clean_client": "true",
+    "run_list": ["recipe[prime-8-buildserver::default]"]
+   },
+   {
+    "type": "file",
+    "source": "{{user `base_dir`}}/ops/prime-8-buildserver/test/spec",
+    "destination": "/home/ubuntu/spec/"
+   },
+   {
+    "type": "file",
+    "source": "{{user `base_dir`}}/ops/prime-8-buildserver/test/Rakefile",
+    "destination": "/home/ubuntu/Rakefile"
+   },
+   {
+    "type": "shell",
+    "inline": ["sudo chmod 600 /etc/chef"]
+   }
+  ]
+}
