@@ -27,7 +27,7 @@
       "os": "ubuntu 14.04",
       "release": "latest",
       "role": "buildserver",
-      "version": "0.0.00",
+      "version": "0.0.1",
       "lock": "none"
     }
   }],
