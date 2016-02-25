@@ -49,7 +49,7 @@ resource "aws_instance" "buildserver" {
   ami             = "#{var.buildserver_ami}"
   instance_type   = "t2.medium"
   key_name        = "bootstrap"
-  security_groups = ["sg-7a3bfd1d"]
+  security_groups = ["${aws_security_group.buildserver-sg}"]
   subnet_id       = "${var.buildserver_subnet}"
   connection {
     user      = "ubuntu"
