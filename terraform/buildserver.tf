@@ -14,28 +14,10 @@ resource "aws_security_group" "buildserver-sg" {
   description = "rules for buildserver access"
   
   ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["73.239.176.112/32"]
-  }
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["73.239.176.112/32"]
-  }
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "ssh"
-    cidr_blocks = ["73.239.176.112/32"]
-  }
-  ingress {
     from_port   = 8111
     to_port     = 8111
     protocol    = "tcp"
-    cidr_blocks = ["73.239.176.112/32"]
+    cidr_blocks = ["73.239.176.112/32", "63.158.104.50/32"]
   }
   egress {
     from_port   = 0

@@ -1,74 +1,34 @@
 Prime 8 Buildserver Cookbook
 ============================
-[![Cookbook Version](https://img.shields.io/cookbook/v/prime-8-buildserver.svg)][cookbook]
-[![Build Status](https://img.shields.io/travis/munjeli/prime-8-buildserver-chef.svg)][travis]
-[![Code Climate](https://img.shields.io/codeclimate/github/munjeli/prime-8-buildserver-chef.svg)][codeclimate]
-[![Coverage Status](https://img.shields.io/coveralls/munjeli/prime-8-buildserver-chef.svg)][coveralls]
-
-[cookbook]: https://supermarket.chef.io/cookbooks/prime-8-buildserver
-[travis]: https://travis-ci.org/munjeli/prime-8-buildserver-chef
-[codeclimate]: https://codeclimate.com/github/munjeli/prime-8-buildserver-chef
-[coveralls]: https://coveralls.io/r/munjeli/prime-8-buildserver-chef
-
-TODO: Enter the cookbook description here.
+We use Teamcity for legacy builds, to schedule cloud8 builds and deploys, and for managing
+some basic operations. This is a wrapper cookbook. 
 
 Requirements
 ============
-
-TODO: Describe cookbook dependencies.
+Managed by Berks
 
 Usage
 =====
-
-TODO: Describe how to use the cookbook.
+In pattern with the other builds for Prime 8, this is a cookbook deployed with Chef-Zero
+during a packer build process. 
 
 Recipes
 =======
 
 ***default***
 
-TODO: Describe each component recipe.
+Currently, we only build the server, no agents. 
 
 Attributes
 ==========
 
 ***default***
 
-TODO: Describe any noteworthy attributes.
-
+We have an attributes file to grab the latest version of Teamcity.
 Resources
 =========
 
 ***prime_8_buildserver***
-
-TODO: Describe each included resource.
-
-Syntax:
-
-    prime_8_buildserver 'my_resource' do
-        attribute1 'value1'
-        action :create
-    end
-
-Actions:
-
-| Action  | Description  |
-|---------|--------------|
-| action1 | Do something |
-
-Attributes:
-
-| Attribute  | Default        | Description          |
-|------------|----------------|----------------------|
-| attribute1 | `'some_value'` | Do something         |
-| action     | `:create`      | Action(s) to perform |
-
-Providers
-=========
-
-TODO: Describe each included provider
-
-***Chef::Provider::SomeProvider***
 
 Contributing
 ============
