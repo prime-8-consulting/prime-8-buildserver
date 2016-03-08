@@ -3,6 +3,46 @@ ark Cookbook CHANGELOG
 This file is used to list changes made in each version of the ark cookbook.
 
 
+v0.9.0 (2014-06-06)
+-------------------
+* [COOK-3642] Add Windows support
+
+
+v0.8.2 (2014-04-23)
+-------------------
+- [COOK-4514] - Support for SLES with the Ark cookbook
+
+
+v0.8.0 (2014-04-10)
+-------------------
+- [COOK-2771] - Add support for XZ compression
+
+
+v0.7.2 (2014-03-28)
+-------------------
+- [COOK-4477] - Fix failing test suite
+- [COOK-4484] - Replace strip_leading_dir attribute with more general strip_components
+
+
+v0.7.0 (2014-03-18)
+-------------------
+- [COOK-4437] - configure and install_with_make should chown after unpack
+
+
+v0.6.0 (2014-02-27)
+-------------------
+[COOK-3786] - Unable to install multiple versions of archive without duplication
+
+
+v0.5.0 (2014-02-21)
+-------------------
+### Bug
+- **[COOK-4288](https://tickets.opscode.com/browse/COOK-4288)** - Cleanup the Kitchen
+
+### Improvement
+- **[COOK-4264](https://tickets.opscode.com/browse/COOK-4264)** - Add node['ark']['package_dependencies'] to allow tuning packages.
+
+
 v0.4.2
 ------
 ### Improvement

@@ -7,7 +7,7 @@ output "buildserver_private_ip" {
 }
 
 output "buildserver_public_ip" {
-  value = "${aws.instance.buildserver.public_ip}"
+  value = "${aws_instance.buildserver.public_ip}"
 }
 
 output "buildserver_id" {

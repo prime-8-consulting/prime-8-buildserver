@@ -38,13 +38,15 @@ attribute :checksum, :regex => /^[a-zA-Z0-9]{64}$/, :default => nil
 attribute :has_binaries, :kind_of => Array, :default => []
 attribute :creates, :kind_of => String, :default => nil
 attribute :release_file, :kind_of => String, :default => ''
-attribute :strip_leading_dir, :kind_of => [TrueClass, FalseClass], :default => true
+attribute :strip_leading_dir, :kind_of => [TrueClass, FalseClass, NilClass]
+attribute :strip_components, :kind_of => Integer, :default => 1
 attribute :mode, :kind_of => Fixnum, :default => 0755
 attribute :prefix_root, :kind_of => String, :default => nil
 attribute :prefix_home, :kind_of => String, :default => nil
 attribute :prefix_bin, :kind_of => String, :default => nil
 attribute :version, :kind_of => String, :default => nil
 attribute :home_dir, :kind_of => String, :default => nil
+attribute :win_install_dir, :kind_of => String, :default => nil
 attribute :environment, :kind_of => Hash, :default => {}
 attribute :autoconf_opts, :kind_of => Array, :default => []
 attribute :make_opts, :kind_of => Array, :default => []

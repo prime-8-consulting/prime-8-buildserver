@@ -62,6 +62,10 @@ defaults.
   `prefix_bin` is not passed into the resource.
 * `node['ark']['prefix_home']` - default home location if the
   `prefix_home` is not passed into the resource.
+* `node['ark']['win_install_dir']` - directory where the files will
+  be put on windows
+* `node['ark']['package_dependencies']` - prerequisite system
+  packages that need to be installed to support ark.
 
 Resources/Providers
 ===================
@@ -170,9 +174,9 @@ Attribute Parameters
   - Example: `mvn`, `java`, `javac`, etc.
 - `environment`: hash of environment variables to pass to invoked
   shell commands like `tar`, `unzip`, `configure`, and `make`.
-- `strip_leading_dir`: by default, ark strips the leading directory
-  from an archive, which is the default for both `unzip` and `tar`
-  commands
+- `strip_components`: number of components in path to strip when extracting archive.
+  With default value of `1`, ark strips the leading directory from an archive, 
+  which is the default for both `unzip` and `tar` commands.
 - `autoconf_opts`: an array of command line options for use with the
   GNU `autoconf` script.
   - Example: `[ '--include=/opt/local/include', '--force' ]`

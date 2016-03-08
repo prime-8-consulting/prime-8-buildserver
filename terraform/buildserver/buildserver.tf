@@ -20,6 +20,12 @@ resource "aws_security_group" "buildserver-sg" {
     protocol    = "tcp"
     cidr_blocks = ["73.239.176.112/32", "63.158.104.50/32"]
   }
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["73.239.176.112/32", "63.158.104.50/32"]
+  }
   egress {
     from_port   = 0
     to_port     = 0
