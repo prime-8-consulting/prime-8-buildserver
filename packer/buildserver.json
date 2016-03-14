@@ -35,6 +35,7 @@
    {
     "type": "shell",
     "inline": [
+       "sudo sed -i \"/^# deb.*multiverse/ s/^# //\" /etc/apt/sources.list",
        "sudo apt-get -y update",
        "sudo chmod 777 /etc/chef" 
      ]
