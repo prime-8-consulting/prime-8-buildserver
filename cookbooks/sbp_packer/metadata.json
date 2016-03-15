@@ -6,11 +6,12 @@
   "maintainer_email": "arepton@schubergphilis.com",
   "license": "Apache 2.0",
   "platforms": {
-
+    "ubuntu": "= 14.04",
+    "centos": "= 7.1"
   },
   "dependencies": {
-    "ark": "~> 0.9.0",
-    "golang": "~> 1.5.0"
+    "ark": "~> 1.0.0",
+    "golang": "~> 1.7.0"
   },
   "recommendations": {
 
@@ -36,7 +37,7 @@
   "recipes": {
 
   },
-  "version": "1.1.2",
+  "version": "1.3.0",
   "source_url": "",
   "issues_url": "",
   "privacy": false

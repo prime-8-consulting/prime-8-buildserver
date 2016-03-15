@@ -27,7 +27,7 @@
       "os": "ubuntu 14.04",
       "release": "latest",
       "role": "buildserver",
-      "version": "0.0.13",
+      "version": "0.0.27",
       "lock": "none"
     }
   }],
@@ -50,7 +50,10 @@
     "server_url": "http://localhost:8889",
     "skip_clean_node": "true",
     "skip_clean_client": "true",
-    "run_list": ["recipe[prime-8-buildserver::default]"]
+    "run_list": [
+      "recipe[prime-8-buildserver::default]", 
+      "recipe[prime-8-buildserver::jenkins]"
+    ]
    },
    {
     "type": "file",
