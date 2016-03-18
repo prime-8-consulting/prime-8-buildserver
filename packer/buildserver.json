@@ -17,7 +17,8 @@
     "ssh_username": "ubuntu",
     "ami_name": "buildserver-{{isotime \"2006-01-02\"}}",
     "ami_description": "prime 8 buildserver ami",
-    "security_group_ids": [ "sg-7a3bfd1d" ],
+    "security_group_ids": [ "sg-894af2ee" ],
+    "subnet_id": "subnet-36f41e52",
     "force_deregister": "true",
     "ssh_keypair_name": "bootstrap",
     "ssh_private_key_file": "{{user `ssh_private_key_file`}}",
@@ -27,7 +28,7 @@
       "os": "ubuntu 14.04",
       "release": "latest",
       "role": "buildserver",
-      "version": "0.0.27",
+      "version": "0.0.44",
       "lock": "none"
     }
   }],
@@ -38,6 +39,10 @@
        "sudo apt-get -y update",
        "sudo chmod 777 /etc/chef" 
      ]
+   },
+   {
+    "type": "shell",
+    "script": "{{user `base_dir`}}/ops/prime-8-buildserver/files/jenkins_hack.sh"
    },
    {
     "type": "file",

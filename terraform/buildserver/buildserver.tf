@@ -15,8 +15,8 @@ resource "aws_security_group" "buildserver-sg" {
   vpc_id      = "vpc-d65bbab2"
   
   ingress {
-    from_port   = 8111
-    to_port     = 8111
+    from_port   = 8080
+    to_port     = 8080
     protocol    = "tcp"
     cidr_blocks = ["73.239.176.112/32", "63.158.104.50/32"]
   }
