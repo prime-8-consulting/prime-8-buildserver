@@ -36,6 +36,7 @@
    {
     "type": "shell",
     "inline": [
+       "sudo sed -i \"/^# deb.*multiverse/ s/^# //\" /etc/apt/sources.list",
        "sudo apt-get -y update",
        "sudo chmod 777 /etc/chef" 
      ]
@@ -57,7 +58,7 @@
     "skip_clean_client": "true",
     "run_list": [
       "recipe[prime-8-buildserver::default]", 
-      "recipe[prime-8-buildserver::jenkins]"
+      "recipe[prime-8-buildserver::jenkins"
     ]
    },
    {
