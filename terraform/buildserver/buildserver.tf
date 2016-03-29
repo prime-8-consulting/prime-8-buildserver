@@ -46,6 +46,6 @@ resource "aws_instance" "buildserver" {
   }
 
   tags {
-    Name = "buildserver-Dev"
+    Name = "jenkins-buildserver"
   }
 }
