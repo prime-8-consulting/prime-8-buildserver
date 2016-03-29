@@ -58,7 +58,7 @@
     "skip_clean_client": "true",
     "run_list": [
       "recipe[prime-8-buildserver::default]", 
-      "recipe[prime-8-buildserver::jenkins"
+      "recipe[prime-8-buildserver::jenkins]"
     ]
    },
    {
