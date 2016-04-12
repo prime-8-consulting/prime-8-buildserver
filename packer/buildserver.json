@@ -25,6 +25,7 @@
     "force_deregister": "true",
     "ssh_keypair_name": "bootstrap",
     "ssh_private_key_file": "{{user `ssh_private_key_file`}}",
+    "subnet_id": "{{user `subnet_id`}}",
     "ami_users": ["433529932512"],
     "tags": {
       "stage": "{{user `stage_tag`}}",
