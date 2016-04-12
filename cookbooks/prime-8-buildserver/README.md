@@ -1,7 +1,8 @@
 Prime 8 Buildserver Cookbook
 ============================
-We use Teamcity for legacy builds, to schedule cloud8 builds and deploys, and for managing
-some basic operations. This is a wrapper cookbook. 
+We use Teamcity for legacy builds, and this cookbook has a recipe to spin it up in case.
+But in general we're using Jenkins now to schedule cloud8 builds and deploys, and for managing
+some basic operations. 
 
 Requirements
 ============
@@ -24,7 +25,7 @@ Attributes
 
 ***default***
 
-We have an attributes file to grab the latest version of Teamcity.
+We have an attributes file to grab the latest version of Packer and it's checksums.
 Resources
 =========
 

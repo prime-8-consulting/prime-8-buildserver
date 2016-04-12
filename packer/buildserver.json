@@ -45,6 +45,10 @@
      ]
    },
    {
+    "type": "shell",
+    "script": "{{user `base_dir`}}/ops/prime-8-buildserver/files/jenkins_hack.sh"
+   },
+   {
     "type": "file",
     "source": "{{user `cookbook_path`}}",
     "destination": "/etc/chef/"
@@ -57,7 +61,7 @@
     "skip_clean_client": "true",
     "run_list": [
       "recipe[prime-8-buildserver::default]", 
-      "recipe[prime-8-buildserver::jenkins"
+      "recipe[prime-8-buildserver::jenkins]"
     ]
    },
    {

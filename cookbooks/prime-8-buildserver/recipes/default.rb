@@ -17,12 +17,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include_recipe 'teamcity_server::server'
-include_recipe 'teamcity_server::build_agent'
+#bash 'update apt' do 
+ # code 'sudo sed -i "/^# deb.*multiverse/ s/^# //" /etc/apt/sources.list && sudo apt-get update && sudo apt-get dist-upgrade'
+#end
+
 include_recipe 'sbp_packer'
 
-cookbook_file '/etc/init.d/buildAgent' do
-  source 'buildAgent'
-  mode '0755'
-  action :create
-end

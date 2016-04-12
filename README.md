@@ -1,2 +1,3 @@
 # prime-8-buildserver
-packer template to install teamcity for prime 8
+packer template for prime 8 buildserver. 
+
