@@ -5,7 +5,11 @@
     "ssh_private_key_file": "{{env `SSH_PRIVATE_KEY_FILE`}}",
     "cookbook_path": "{{env `BASE_DIR`}}/ops/prime-8-buildserver/cookbooks",
     "source_ami": "{{env `PRIME8_BASE_AMI`}}",
-    "base_dir": "{{env `BASE_DIR`}}"
+    "base_dir": "{{env `BASE_DIR`}}",
+    "build_sg_id": "{{env `BUILD_SG_ID`}}",
+    "subnet_id": "{{env `BUILD_SUBNET_ID`}}",
+    "stage_tag": "{{env `STAGE_TAG`}}",
+    "build_no": "{{env `BUILD_ID`}}"
   },
   "builders": [{
     "type": "amazon-ebs",
@@ -13,21 +17,21 @@
     "secret_key": "{{user `aws_secret_key`}}",
     "region": "us-west-2",
     "source_ami": "{{user `source_ami`}}",
-    "instance_type": "t2.medium",
+    "instance_type": "t2.large",
     "ssh_username": "ubuntu",
-    "ami_name": "buildserver-{{isotime \"2006-01-02\"}}",
+    "ami_name": "buildserver-{{user `stage_tag`}}-{{isotime \"2006-01-02\"}}",
     "ami_description": "prime 8 buildserver ami",
-    "security_group_ids": [ "sg-7a3bfd1d" ],
+    "security_group_ids": [ "{{user `build_sg_id`}}" ],
     "force_deregister": "true",
     "ssh_keypair_name": "bootstrap",
     "ssh_private_key_file": "{{user `ssh_private_key_file`}}",
     "ami_users": ["433529932512"],
     "tags": {
-      "stage": "dev",
+      "stage": "{{user `stage_tag`}}",
       "os": "ubuntu 14.04",
       "release": "latest",
       "role": "buildserver",
-      "version": "0.0.13",
+      "version": "{{user `build_id`}}",
       "lock": "none"
     }
   }],
