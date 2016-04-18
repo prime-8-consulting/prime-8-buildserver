@@ -1,15 +1,15 @@
 {
   "variables": {
-    "aws_access_key_id": "{{env `AWS_ACCESS_KEY`}}",
-    "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
-    "ssh_private_key_file": "{{env `SSH_PRIVATE_KEY_FILE`}}",
-    "cookbook_path": "{{env `BASE_DIR`}}/ops/prime-8-buildserver/cookbooks",
-    "source_ami": "{{env `PRIME8_BASE_AMI`}}",
-    "base_dir": "{{env `BASE_DIR`}}",
-    "build_sg_id": "{{env `BUILD_SG_ID`}}",
-    "subnet_id": "{{env `BUILD_SUBNET_ID`}}",
-    "stage_tag": "{{env `STAGE_TAG`}}",
-    "build_no": "{{env `BUILD_ID`}}"
+    "aws_access_key_id": "",
+    "aws_secret_key": "",
+    "ssh_private_key_file": "",
+    "cookbook_path": "",
+    "source_ami": "",
+    "base_dir": "",
+    "build_sg_id": "",
+    "subnet_id": "",
+    "stage_tag": "",
+    "build_no": ""
   },
   "builders": [{
     "type": "amazon-ebs",
