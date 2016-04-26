@@ -9,7 +9,8 @@
     "build_sg_id": "",
     "subnet_id": "",
     "stage_tag": "",
-    "build_no": ""
+    "build_no": "",
+    "origin": ""
   },
   "builders": [{
     "type": "amazon-ebs",
@@ -33,7 +34,8 @@
       "release": "latest",
       "role": "buildserver",
       "version": "{{user `build_id`}}",
-      "lock": "none"
+      "lock": "none",
+      "origin": "{{user `origin`}}"
     }
   }],
   "provisioners": [
