@@ -30,7 +30,7 @@
     "ami_users": ["433529932512"],
     "tags": {
       "stage": "{{user `stage_tag`}}",
-      "os": "ubuntu 14.04",
+      "os": "ubuntu 16.04",
       "release": "latest",
       "role": "buildserver",
       "version": "{{user `build_id`}}",
