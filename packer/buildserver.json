@@ -10,7 +10,7 @@
     "subnet_id": "",
     "stage_tag": "",
     "build_no": "",
-    "origin": ""
+    "cloud_name": ""
   },
   "builders": [{
     "type": "amazon-ebs",
@@ -28,14 +28,24 @@
     "ssh_private_key_file": "{{user `ssh_private_key_file`}}",
     "subnet_id": "{{user `subnet_id`}}",
     "ami_users": ["433529932512"],
+    "ami_block_device_mappings": [{
+      "delete_on_termination": "true",
+      "device_name": "/dev/sda1",
+      "volume_size": 100
+    }],
+    "launch_block_device_mappings": [{
+      "delete_on_termination": "true",
+      "device_name": "/dev/sda1",
+      "volume_size": 100
+    }], 
     "tags": {
       "stage": "{{user `stage_tag`}}",
       "os": "ubuntu 16.04",
       "release": "latest",
       "role": "buildserver",
-      "version": "{{user `build_id`}}",
+      "version": "{{user `build_no`}}",
       "lock": "none",
-      "origin": "{{user `origin`}}"
+      "cloud": "{{user `cloud_name`}}"
     }
   }],
   "provisioners": [
