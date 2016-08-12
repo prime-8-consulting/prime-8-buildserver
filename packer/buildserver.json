@@ -12,48 +12,101 @@
     "build_no": "",
     "cloud_name": ""
   },
-  "builders": [{
-    "type": "amazon-ebs",
-    "access_key": "{{user `aws_access_key_id`}}",
-    "secret_key": "{{user `aws_secret_key`}}",
-    "region": "us-west-2",
-    "source_ami": "{{user `source_ami`}}",
-    "instance_type": "t2.large",
-    "ssh_username": "ubuntu",
-    "ami_name": "buildserver-{{user `stage_tag`}}-{{isotime \"2006-01-02\"}}",
-    "ami_description": "`{{user `cloud_name`}}` buildserver ami",
-    "security_group_ids": [ "{{user `build_sg_id`}}" ],
-    "force_deregister": "true",
-    "ssh_keypair_name": "bootstrap",
-    "ssh_private_key_file": "{{user `ssh_private_key_file`}}",
-    "subnet_id": "{{user `subnet_id`}}",
-    "ami_users": ["433529932512"],
-    "ami_block_device_mappings": [{
-      "delete_on_termination": "true",
-      "device_name": "/dev/sda1",
-      "volume_size": 100
-    }],
-    "launch_block_device_mappings": [{
-      "delete_on_termination": "true",
-      "device_name": "/dev/sda1",
-      "volume_size": 100
-    }],
-    "tags": {
-      "stage": "{{user `stage_tag`}}",
-      "os": "ubuntu 16.04",
-      "release": "latest",
-      "role": "buildserver",
-      "version": "{{user `build_no`}}",
-      "lock": "none",
-      "cloud": "{{user `cloud_name`}}"
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{user `aws_access_key_id`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "region": "us-west-2",
+      "source_ami": "{{user `source_ami`}}",
+      "instance_type": "t2.large",
+      "ssh_username": "ubuntu",
+      "ami_name": "buildserver-{{user `stage_tag`}}-{{isotime \"2006-01-02\"}}",
+      "ami_description": "`{{user `cloud_name`}}` buildserver ami",
+      "security_group_ids": [ "{{user `build_sg_id`}}" ],
+      "force_deregister": "true",
+      "ssh_keypair_name": "bootstrap",
+      "ssh_private_key_file": "{{user `ssh_private_key_file`}}",
+      "subnet_id": "{{user `subnet_id`}}",
+      "ami_users": ["433529932512"],
+      "ami_block_device_mappings": [{
+        "delete_on_termination": "true",
+        "device_name": "/dev/sda1",
+        "volume_size": 100
+      }],
+      "launch_block_device_mappings": [{
+        "delete_on_termination": "true",
+        "device_name": "/dev/sda1",
+        "volume_size": 100
+      }],
+      "tags": {
+        "stage": "{{user `stage_tag`}}",
+        "os": "ubuntu 16.04",
+        "release": "latest",
+        "role": "buildserver",
+        "version": "{{user `build_no`}}",
+        "lock": "none",
+        "cloud": "{{user `cloud_name`}}"
+      }
+    },
+    {
+      "name": "ubuntu-16.04.amd64.virtualbox",
+      "type": "virtualbox-iso",
+      "guest_os_type": "Ubuntu_64",
+      "iso_urls": [
+        "http://releases.ubuntu.com/16.04.1/ubuntu-16.04-server-amd64.iso",
+        "http://mirror.pnl.gov/releases/xenial/ubuntu-16.04-server-amd64.iso"
+      ],
+      "iso_checksum": "23e97cd5d4145d4105fbf29878534049",
+      "iso_checksum_type": "md5",
+      "ssh_username": "ubuntu",
+      "ssh_password": "ubuntu",
+      "ssh_timeout": "10m",
+      "http_directory": "http",
+      "http_port_min" : 9001,
+      "http_port_max" : 9101,
+      "headless": true,
+      "boot_wait": "5s",
+      "boot_command": [
+        "<enter><wait>",
+        "<f6><esc>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs>",
+        "/install/vmlinuz ",
+        "initrd=/install/initrd.gz ",
+        "net.ifnames=0 ",
+        "auto-install/enable=true ",
+        "debconf/priority=critical ",
+        "preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/ubuntu-16.04/preseed.cfg ",
+        "<enter>"
+      ],
+      "shutdown_command": "echo 'ubuntu' | sudo -S -E shutdown -P now",
+      "hard_drive_interface": "sata"
     }
-  }],
+  ],
   "provisioners": [
    {
     "type": "shell",
-      "inline": [
-        "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done"
-      ]
+    "only": ["amazon-ebs"],
+    "inline": [
+      "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done"
+    ]
+   },
+   {
+    "type": "shell",
+    "only": ["ubuntu-16.04.amd64.virtualbox"],
+    "inline": [
+      "echo Adding chef client.",
+      "sudo mkdir -p /etc/chef && sudo chmod 777 /etc/chef",
+      "sudo mkdir -p /tmp/packer-chef-client && sudo chmod 777 /tmp/packer-chef-client"
+    ]
    },
    {
     "type": "shell",
@@ -64,6 +117,7 @@
    },
    {
     "type": "shell",
+    "only": ["amazon-ebs"],
     "script": "{{user `base_dir`}}/ops/prime-8-buildserver/files/jenkins_hack.sh"
    },
    {
@@ -73,12 +127,24 @@
    },
    {
     "type": "chef-client",
+    "only": ["amazon-ebs"],
     "execute_command": "cd /etc/chef && sudo chef-client --local-mode -c /tmp/packer-chef-client/client.rb -j /tmp/packer-chef-client/first-boot.json",
     "server_url": "http://localhost:8889",
     "skip_clean_node": "true",
     "skip_clean_client": "true",
     "run_list": [
       "recipe[prime-8-buildserver::default]"
+    ]
+   },
+   {
+    "type": "chef-client",
+    "only": ["ubuntu-16.04.amd64.virtualbox"],
+    "execute_command": "cd /etc/chef && sudo chef-client --local-mode -c /tmp/packer-chef-client/client.rb -j /tmp/packer-chef-client/first-boot.json",
+    "server_url": "http://localhost:8889",
+    "skip_clean_node": "true",
+    "skip_clean_client": "true",
+    "run_list": [
+      "recipe[prime-8-buildserver::devbox]"
     ]
    },
    {
