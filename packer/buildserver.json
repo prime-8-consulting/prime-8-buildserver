@@ -81,7 +81,7 @@
    {
     "type": "file",
     "source": "{{user `cookbook_path`}}",
-    "destination": "/etc/chef"
+    "destination": "/etc/chef/"
    },
    {
     "type": "chef-client",
