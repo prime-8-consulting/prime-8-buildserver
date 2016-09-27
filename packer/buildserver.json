@@ -81,7 +81,11 @@
    {
     "type": "file",
     "source": "{{user `cookbook_path`}}",
-    "destination": "/etc/chef/"
+    "destination": "/home/ubuntu"
+   },
+   {
+    "type": "shell",
+    "inline": ["sudo mv /home/ubuntu/cookbooks /etc/chef/"]
    },
    {
     "type": "chef-client",
