@@ -58,6 +58,13 @@
    },
    {
     "type": "shell",
+    "inline": [
+       "sudo apt-get -y update",
+       "sudo rm -rf /etc/chef/cookbooks"
+     ]
+   },
+   {
+    "type": "shell",
     "script": "{{user `base_dir`}}/ops/prime-8-base/files/ext_disk.sh"
    },
    {
@@ -66,13 +73,6 @@
       "sudo reboot",
       "sleep 30"
    ]
-   },
-   {
-    "type": "shell",
-    "inline": [
-       "sudo apt-get -y update",
-       "sudo rm -rf /etc/chef/cookbooks"
-     ]
    },
    {
     "type": "shell",
