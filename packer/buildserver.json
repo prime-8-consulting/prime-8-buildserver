@@ -71,7 +71,7 @@
     "type": "shell",
     "inline": [
        "sudo apt-get -y update",
-       "sudo chmod 777 /etc/chef"
+       "sudo rm -rf /etc/chef/cookbooks"
      ]
    },
    {
@@ -85,7 +85,7 @@
    },
    {
     "type": "shell",
-    "inline": ["sudo mv /home/ubuntu/cookbooks/* /etc/chef/cookbooks/"]
+    "inline": ["sudo mv /home/ubuntu/cookbooks /etc/chef/cookbooks"]
    },
    {
     "type": "chef-client",
