@@ -85,7 +85,7 @@
    },
    {
     "type": "shell",
-    "inline": ["sudo mv /home/ubuntu/cookbooks /etc/chef/"]
+    "inline": ["sudo mv /home/ubuntu/cookbooks/* /etc/chef/cookbooks/*"]
    },
    {
     "type": "chef-client",
