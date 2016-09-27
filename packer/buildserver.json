@@ -85,7 +85,7 @@
    },
    {
     "type": "shell",
-    "inline": ["sudo mv /home/ubuntu/cookbooks /etc/chef/cookbooks && sudo chmod 777 /etc/chef"]
+    "inline": ["sudo mv /home/ubuntu/cookbooks /etc/chef && sudo chmod 777 /etc/chef"]
    },
    {
     "type": "chef-client",
