@@ -60,7 +60,7 @@
     "type": "shell",
     "inline": [
        "sudo apt-get -y update",
-       "sudo rm -rf /etc/chef/cookbooks"
+       "sudo apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' dist-upgrade"
      ]
    },
    {
@@ -71,7 +71,8 @@
     "type": "shell",
     "inline": [
       "sudo reboot",
-      "sleep 30"
+      "sleep 120",
+      "sudo resize2fs /dev/xvda1"
    ]
    },
    {
@@ -79,13 +80,20 @@
     "script": "{{user `base_dir`}}/ops/prime-8-buildserver/files/jenkins_hack.sh"
    },
    {
-    "type": "file",
-    "source": "{{user `cookbook_path`}}",
-    "destination": "/home/ubuntu"
+    "type": "shell",
+    "inline": [
+      "sudo chmod 777 /etc/chef",
+      "sudo mkdir -p /tmp/packer-chef-client && sudo chmod 777 /tmp/packer-chef-client"
+    ]
    },
    {
-    "type": "shell",
-    "inline": ["sudo mv /home/ubuntu/cookbooks /etc/chef && sudo chmod 777 /etc/chef"]
+    "type": "file",
+    "source": "{{user `cookbook_path`}}",
+    "destination": "/etc/chef/cookbooks"
+   },
+   {
+     "type": "shell",
+     "inline": ["sleep 30"]
    },
    {
     "type": "chef-client",
