@@ -94,7 +94,7 @@
    {
      "type": "shell",
      "inline": [
-       "sudo mv /etc/chef/buildserver-cookbooks/* /etc/chef/cookbooks/"
+       "rsync -av --remove-source-files /etc/chef/buildserver-cookbooks/ /etc/chef/cookbooks/"
      ]
    },
    {
