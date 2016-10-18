@@ -89,7 +89,7 @@
    {
     "type": "file",
     "source": "{{user `cookbook_path`}}",
-    "destination": "/etc/chef/cookbooks"
+    "destination": "/etc/chef/cookbooks/"
    },
    {
      "type": "shell",
