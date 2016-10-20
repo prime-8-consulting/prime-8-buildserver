@@ -59,6 +59,7 @@
    {
     "type": "shell",
     "inline": [
+       "sudo rm /etc/apt/apt.conf.d/02proxy",
        "sudo apt-get -y update",
        "sudo apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' dist-upgrade"
      ]
