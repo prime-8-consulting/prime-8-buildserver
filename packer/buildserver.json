@@ -28,7 +28,7 @@
     "ssh_keypair_name": "bootstrap",
     "ssh_private_key_file": "{{user `ssh_private_key_file`}}",
     "subnet_id": "{{user `subnet_id`}}",
-    "ami_users": ["433529932512"],
+    "ami_users": ["433529932512", "902057063458"],
     "ami_block_device_mappings": [{
       "delete_on_termination": "true",
       "device_name": "/dev/sda1",
