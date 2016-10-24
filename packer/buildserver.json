@@ -95,7 +95,7 @@
    {
      "type": "shell",
      "inline": [
-       "rsync -av --remove-source-files /home/ubuntu/buildserver-cookbooks/ /etc/chef/cookbooks/"
+       "sudo rsync -av --remove-source-files /home/ubuntu/buildserver-cookbooks/ /etc/chef/cookbooks/"
      ]
    },
    {
