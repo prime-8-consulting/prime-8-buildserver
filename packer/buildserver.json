@@ -83,7 +83,7 @@
    {
     "type": "shell",
     "inline": [
-      "sudo chmod 755 /etc/chef/cookbooks",
+      "sudo chmod 775 /etc/chef/cookbooks",
       "sudo mkdir -p /tmp/packer-chef-client && sudo chmod 777 /tmp/packer-chef-client"
     ]
    },
