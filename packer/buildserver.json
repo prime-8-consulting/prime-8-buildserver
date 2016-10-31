@@ -10,7 +10,8 @@
     "subnet_id": "",
     "stage_tag": "",
     "build_no": "",
-    "cloud_name": ""
+    "cloud_name": "",
+    "url": ""
   },
   "builders": [{
     "type": "amazon-ebs",
