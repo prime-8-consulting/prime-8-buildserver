@@ -111,6 +111,12 @@
     ]
    },
    {
+    "type": "shell",
+    "inline": [
+      "sudo echo \"{{user `cloud_name`}}\" > /var/lib/jenkins/.cloud8/config"
+   ]
+   },
+   {
     "type": "file",
     "source": "{{user `base_dir`}}/ops/prime-8-buildserver/test/spec",
     "destination": "/home/ubuntu/spec/"
