@@ -13,7 +13,7 @@ resource "aws_security_group" "buildserver-sg" {
   name        = "buildserver-sg"
   description = "rules for buildserver access"
   vpc_id      = "vpc-d65bbab2"
-  
+
   ingress {
     from_port   = 8080
     to_port     = 8080
