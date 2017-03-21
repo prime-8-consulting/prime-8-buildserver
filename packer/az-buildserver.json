@@ -1,0 +1,134 @@
+{
+  "variables": {
+    "aws_access_key_id": "",
+    "aws_secret_key": "",
+    "ssh_private_key_file": "",
+    "cookbook_path": "",
+    "source_ami": "",
+    "base_dir": "",
+    "build_sg_id": "",
+    "subnet_id": "",
+    "stage_tag": "",
+    "build_no": "",
+    "cloud_name": "",
+    "url": ""
+  },
+  "builders": [{
+    "type": "amazon-ebs",
+    "access_key": "{{user `aws_access_key_id`}}",
+    "secret_key": "{{user `aws_secret_key`}}",
+    "ssh_private_ip": true,
+    "region": "us-west-2",
+    "source_ami": "{{user `source_ami`}}",
+    "instance_type": "t2.large",
+    "ssh_username": "ubuntu",
+    "ami_name": "{{user `cloud_name`}}-buildserver-{{user `stage_tag`}}-{{isotime \"2006-01-02\"}}",
+    "ami_description": "`{{user `cloud_name`}}` buildserver ami",
+    "security_group_ids": [ "{{user `build_sg_id`}}" ],
+    "force_deregister": "true",
+    "ssh_keypair_name": "bootstrap",
+    "ssh_private_key_file": "{{user `ssh_private_key_file`}}",
+    "subnet_id": "{{user `subnet_id`}}",
+    "ami_users": ["433529932512", "902057063458"],
+    "ami_block_device_mappings": [{
+      "delete_on_termination": "true",
+      "device_name": "/dev/sda1",
+      "volume_size": 100
+    }],
+    "launch_block_device_mappings": [{
+      "delete_on_termination": "true",
+      "device_name": "/dev/sda1",
+      "volume_size": 100
+    }],
+    "tags": {
+      "stage": "{{user `stage_tag`}}",
+      "os": "ubuntu 16.04",
+      "release": "latest",
+      "role": "buildserver",
+      "version": "{{user `build_no`}}",
+      "lock": "none",
+      "cloud": "{{user `cloud_name`}}"
+    }
+  }],
+  "provisioners": [
+   {
+    "type": "shell",
+      "inline": [
+        "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done"
+      ]
+   },
+   {
+    "type": "shell",
+    "inline": [
+       "sudo rm /etc/apt/apt.conf.d/02proxy",
+       "sudo apt-get -y update",
+       "sudo apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' dist-upgrade"
+     ]
+   },
+   {
+    "type": "shell",
+    "script": "{{user `base_dir`}}/ops/prime-8-base/files/ext_disk.sh"
+   },
+   {
+    "type": "shell",
+    "inline": [
+      "sudo reboot",
+      "sleep 120",
+      "sudo resize2fs /dev/xvda1"
+   ]
+   },
+   {
+    "type": "shell",
+    "script": "{{user `base_dir`}}/ops/prime-8-buildserver/files/jenkins_hack.sh"
+   },
+   {
+    "type": "shell",
+    "inline": [
+      "sudo chmod 777 /etc/chef",
+      "sudo chmod 755 /etc/chef/cookbooks",
+      "sudo mkdir -p /tmp/packer-chef-client && sudo chmod 777 /tmp/packer-chef-client"
+    ]
+   },
+   {
+    "type": "file",
+    "source": "{{user `cookbook_path`}}",
+    "destination": "/home/ubuntu/buildserver-cookbooks/"
+   },
+   {
+     "type": "shell",
+     "inline": [
+       "sudo rsync -av --remove-source-files /home/ubuntu/buildserver-cookbooks/ /etc/chef/cookbooks/"
+     ]
+   },
+   {
+    "type": "chef-client",
+    "execute_command": "cd /etc/chef && sudo chef-client --local-mode -c /tmp/packer-chef-client/client.rb -j /tmp/packer-chef-client/first-boot.json",
+    "server_url": "http://localhost:8889",
+    "skip_clean_node": "true",
+    "skip_clean_client": "true",
+    "run_list": [
+      "recipe[prime-8-buildserver::default]"
+    ]
+   },
+   {
+    "type": "shell",
+    "inline": [
+      "sudo echo \"{{user `cloud_name`}}\" > /var/lib/jenkins/.cloud8/config"
+   ]
+   },
+   {
+    "type": "file",
+    "source": "{{user `base_dir`}}/ops/prime-8-buildserver/test/spec",
+    "destination": "/home/ubuntu/spec/"
+   },
+   {
+    "type": "file",
+    "source": "{{user `base_dir`}}/ops/prime-8-buildserver/test/Rakefile",
+    "destination": "/home/ubuntu/Rakefile"
+   },
+   {
+    "type": "shell",
+    "inline": ["sudo chmod 600 /etc/chef"]
+   }
+  ]
+}
